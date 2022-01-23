@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  main_server:
+    image: nginx:latest
+    volumes: 
+      - ./Servers/MainServer/nginx/:/etc/nginx/conf.d/:ro
+    ports:
+      - "4001:80"
+  auth_server:
+    build:
+      context: ./Servers/AuthServer
+      dockerfile: Dockerfile
+    volumes:
+      - ./Servers/AuthServer/:/app/:ro
+  todo_server:
+    build:
+      context: ./Servers/TodoServer
+      dockerfile: Dockerfile
+    volumes:
+      - ./Servers/TodoServer/:/app/:ro
+  frontend:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "4000:1234"
+    volumes:
+      - ./Client/:/app/
+  auth_mongo:
+    image: mongo
+    ports:
+      - '4002:27017'
+  todo_mongo:
+    image: mongo
+    ports:
+      - '4003:27017'
