@@ -9,7 +9,8 @@ app.use(express.json());
 app.get("/", (req, res)=>{
     res.send("Todo Server")
 })
-app.use("/api", MainRoute);
+
+
 app.use(ErrorHandler); // Customr Error Handler Middleware
 
 app.listen(3000, async()=> {
