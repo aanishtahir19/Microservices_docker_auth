@@ -26,7 +26,11 @@ const UserSchema = new mongoose.Schema({
         max:[15, "Maximum 15 Characters"],
         validate:[validatePassword, 'Invalid Password']
 
+    },
+    refreshTokens:{
+        type:Array
     }
+    
 })
 UserSchema.pre("save", function(){
     try {
