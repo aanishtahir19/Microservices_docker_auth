@@ -2,10 +2,10 @@ version: '3.8'
 services:
   main_server:
     image: nginx:latest
-    volumes: 
+    volumes:
       - ./Servers/MainServer/nginx/:/etc/nginx/conf.d/:ro
     ports:
-      - "4001:80"
+      - '4001:80'
   auth_server:
     build:
       context: ./Servers/AuthServer
@@ -24,7 +24,7 @@ services:
       dockerfile: Dockerfile
       target: development
     ports:
-      - "4000:1234"
+      - '4000:1234'
     volumes:
       - ./Client/:/app/
   auth_mongo:
