@@ -40,8 +40,8 @@ export default async function RegisterController(req: Request, res: Response) {
     res
       .status(200)
       .cookie('refreshToken', refresh_token, {
-        // secure:true,
-        // httpOnly:true,
+        secure: true,
+        httpOnly: true,
         maxAge: Number(process.env.REFRESH_TOKEN_EXPIRY),
       })
       .json({ accessToken: access_token });
