@@ -10,6 +10,9 @@ export default async function LoginController(
   try {
     //   Validate if req has email and passwordk
     const { email, password } = req.body;
+    if (!email || !password) {
+      throw new Errors.BadRequestError('Email or Password not Found');
+    }
     const data = await UserModel.findOne({ email });
     if (!data) throw new Errors.BadRequestError('Email not registered');
     //  Validate if password is correct

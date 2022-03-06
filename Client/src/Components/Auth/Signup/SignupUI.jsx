@@ -1,7 +1,29 @@
 // React functional component for the signup page
-import React, { useState } from 'react';
-function Signup({ Field, ErrorMessage }) {
+import React, { useState, useEffect } from 'react';
+
+function Signup({ Field, ErrorMessage, handleCredentialResponse }) {
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+        auto_select: true,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('buttonDiv'),
+        {
+          theme: 'outline',
+          size: 'large',
+          width: '208px',
+          // outerWidth: '100%',
+          // innerWidth: 500,
+        } // customization attributes
+      );
+      // google.accounts.id.prompt();
+    };
+  }, [window]);
   return (
     <div className='h-full bg-gradient-to-tl from-green-400 to-indigo-900 w-full py-16 px-4 min-h-screen'>
       <div className='flex flex-col items-center justify-center'>
@@ -63,7 +85,7 @@ function Signup({ Field, ErrorMessage }) {
               <ErrorMessage name='password' />
             </div>
           </div>
-          <div className='mt-3'>
+          <div className='mt-3 w-52 mx-auto'>
             <button
               role='button'
               type='submit'
@@ -71,6 +93,9 @@ function Signup({ Field, ErrorMessage }) {
             >
               Create my account
             </button>
+          </div>
+          <div className='mt-3  flex justify-center'>
+            <div id='buttonDiv'></div>
           </div>
         </div>
       </div>
