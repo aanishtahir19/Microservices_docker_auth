@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Signup from './Components/Auth/Signup/SignupContainer';
+import Signup from './Pages/Signup/SignupContainer';
+import { withAdminRole } from './Components/HOC/withRoles';
+import Restricted from './Pages/Restricted/Restricted';
 function App() {
   return (
     <div>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/signup' element={<Signup />} />
+        <Route exact path='/signup' element={<Signup />} />
+        <Route exact path='/restricted' element={<Restricted />} />
       </Routes>
     </div>
   );
 }
 
+const Heading = () => {
+  return <h2>Aanish</h2>;
+};
+const RestrictedHeading = withAdminRole(Heading);
 function Home() {
   const handleCredentialResponse = (response) => {
     // Here we can do whatever process with the response we want
@@ -36,6 +43,7 @@ function Home() {
       <nav>
         <Link to='/about'>About</Link>
       </nav>
+      <RestrictedHeading />
     </>
   );
 }

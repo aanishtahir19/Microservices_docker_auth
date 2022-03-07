@@ -1,21 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../Services/AxiosConfig';
+import axios from '../Services/AxiosConfig';
 import Cookies from 'js-cookie';
-import GoogleLogin from '../../Services/GoogleLogin';
+import GoogleLogin from '../Services/GoogleLogin';
+import getRoles from '../Helpers/getRoles';
 let initialState = { authorized: false, authorizing: false };
 export const signupThunk = createAsyncThunk(
   'auth/signup',
   async (signupData, thunkAPI) => {
-    const response = await axios.post('/auth/signup', signupData, {
-      withCredentials: true,
-      headers: {
-        // 'Access-Control-Allow-Credentials': true,
-      },
-    });
-    const refreshToken = -(await Cookies.get('refreshToken'));
-    console.log(refreshToken);
-    console.log(response);
-    return response.data;
+    try {
+      const { data } = await axios.post('/auth/signup', signupData, {
+        withCredentials: true,
+      });
+      localStorage.setItem('accessToken', data.accessToken);
+      const roles = getRoles(data.accessToken);
+      return roles;
+    } catch (error) {
+      console.log(error);
+      thunkAPI.rejectWithValue(error);
+    }
   }
 );
 export const googleLogin = createAsyncThunk(
@@ -52,6 +54,19 @@ const auth = createSlice({
     },
   },
   extraReducers: {
+    [signupThunk.pending]: (state) => {
+      state.authorized = false;
+      state.authorizing = true;
+    },
+    [signupThunk.fulfilled]: (state, { payload }) => {
+      state.authorized = true;
+      state.authorizing = false;
+      state.roles = payload;
+    },
+    [signupThunk.rejected]: (state) => {
+      state.authorized = false;
+      state.authorizing = false;
+    },
     [googleLogin.pending]: (state) => {
       state.authorized = false;
       state.authorizing = true;

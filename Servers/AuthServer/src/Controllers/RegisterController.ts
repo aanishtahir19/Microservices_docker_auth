@@ -15,13 +15,13 @@ export default async function RegisterController(req: Request, res: Response) {
       throw new Errors.BadRequestError('User with this email already exists');
     // Creating Refresh Token
     const refresh_token = jwt.sign(
-      { email: email },
+      { email: email, roles: ['user'] },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
     );
     // Creating Access Token
     const access_token = jwt.sign(
-      { email: email },
+      { email: email, roles: ['user'] },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
     );

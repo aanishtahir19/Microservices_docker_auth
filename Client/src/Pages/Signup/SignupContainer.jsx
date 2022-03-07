@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import SignupUi from './SignupUI';
 import * as Yup from 'yup';
-import { googleLogin, signupThunk } from '../AuthSlice';
+import { googleLogin, signupThunk } from '../../Redux/AuthSlice';
 import { useDispatch } from 'react-redux';
-import useScript from '../../../Hooks/useScript';
+import useScript from '../../Hooks/useScript';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 const SignupSchema = Yup.object().shape({
