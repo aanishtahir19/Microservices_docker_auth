@@ -8,15 +8,17 @@ interface JwtPayload {
   family_name: string;
   picture: string;
 }
-export default async function LoginController(
+export default async function LoginGoogleController(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
+    console.log(req.body);
     const { id_token } = req.body;
     if (!id_token) throw new Errors.BadRequestError('id_token is required');
     const decodedToken = (await jwt.decode(id_token)) as JwtPayload;
+    // console.log('decodedToken', decodedToken);
     if (!decodedToken) throw new Errors.BadRequestError('Invalid id_token');
     const { email, given_name, family_name, picture } = decodedToken;
     const user = await UserModel.findOne({ email });
@@ -37,6 +39,7 @@ export default async function LoginController(
       const data = await UserModel.create({
         email,
         signin_method: 'google',
+        role: ['user'],
         refreshTokens: [
           {
             token: refresh_token,

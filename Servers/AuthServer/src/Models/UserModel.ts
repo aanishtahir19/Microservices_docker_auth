@@ -26,6 +26,11 @@ const UserSchema = new mongoose.Schema({
     max: [15, 'Maximum 15 Characters'],
     validate: [validatePassword, 'Invalid Password'],
   },
+  roles: {
+    type: Array,
+    default: ['user'],
+    required: true,
+  },
   refreshTokens: {
     type: Array,
   },
