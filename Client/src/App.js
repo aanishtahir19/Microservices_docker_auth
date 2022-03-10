@@ -15,10 +15,6 @@ function App() {
   );
 }
 
-const Heading = () => {
-  return <h2>Aanish</h2>;
-};
-const RestrictedHeading = withAdminRole(Heading);
 function Home() {
   const handleCredentialResponse = (response) => {
     // Here we can do whatever process with the response we want
@@ -43,7 +39,6 @@ function Home() {
       <nav>
         <Link to='/about'>About</Link>
       </nav>
-      <RestrictedHeading />
     </>
   );
 }

@@ -28,7 +28,7 @@ function SignupContainer() {
         initialValues={{ email: '', password: '' }}
         validationSchema={SignupSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
+          // console.log(values);
           dispatch(signupThunk(values));
         }}
       >
